@@ -3,6 +3,8 @@ import SmileIconMobile from "@/public/reddit-full.svg";
 
 import Link from "next/link";
 import Image from "next/image";
+import { ThemeToggle } from "./ThemeToggle";
+import { Button } from "@/components/ui/button";
 
 export function Navbar() {
   return (
@@ -11,6 +13,12 @@ export function Navbar() {
         <Image src={SmileIconMobile} alt="SmileVault Mobile Icon" className="h-10 w-fit" />
         <Image src={SmileIcon} alt="SmileVault Icon" className="h-9 w-fit hidden lg:block" />
       </Link>
+
+      <div className="flex items-center gap-x-4">
+        <ThemeToggle />
+        <Button variant="secondary">Sign up</Button>
+        <Button>Log in</Button>
+      </div>
     </nav>
   );
 }
