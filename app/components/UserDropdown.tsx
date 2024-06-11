@@ -1,7 +1,9 @@
-import { DropdownMenu, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MenuIcon } from "lucide-react";
 import DefaultUserIcon from "@/public/default-user-icon.png";
 import Image from "next/image";
+import Link from "next/link";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 export function UserDropdown() {
   return (
@@ -13,6 +15,28 @@ export function UserDropdown() {
           <Image src={DefaultUserIcon} alt="Default Avatar" className="rounded-full h-8 w-8 hidden lg:block" />
         </div>
       </DropdownMenuTrigger>
+
+      <DropdownMenuContent>
+        <DropdownMenuItem>
+          <Link className="w-full" href="/r/create">
+            Create Community
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link className="w-full" href="/create">
+            Create Post
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link className="w-full" href="/settings">
+            Settings
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <LogoutLink className="w-full">Logout</LogoutLink>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
     </DropdownMenu>
   );
 }
