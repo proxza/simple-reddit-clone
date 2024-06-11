@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MenuIcon } from "lucide-react";
 import DefaultUserIcon from "@/public/default-user-icon.png";
@@ -5,14 +6,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
-export function UserDropdown() {
+interface UserDropdownProps {
+  userImage: string | null;
+}
+
+export function UserDropdown({ userImage }: UserDropdownProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <div className="rounded-full border px-2 py-2 lg:px-4 lg:py-2 flex items-center gap-x-3">
           <MenuIcon className="w-6 h-6 lg:w-5 lg:h-5" />
 
-          <Image src={DefaultUserIcon} alt="Default Avatar" className="rounded-full h-8 w-8 hidden lg:block" />
+          <img src={userImage ?? DefaultUserIcon} alt="User Icon" className="rounded-full h-8 w-8 hidden lg:block" />
         </div>
       </DropdownMenuTrigger>
 
