@@ -15,9 +15,7 @@ export function SaveUsernameBtn() {
           Please wait...
         </Button>
       ) : (
-        <Button type="submit" variant="destructive">
-          Save
-        </Button>
+        <Button type="submit">Save</Button>
       )}
     </>
   );

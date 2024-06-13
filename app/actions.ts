@@ -38,5 +38,26 @@ export async function updateUsername(prevState: any, formData: FormData) {
         };
       }
     }
+    throw error;
   }
+}
+
+export async function createCommunity(formData: FormData) {
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+
+  if (!user) {
+    return redirect("/api/auth/login");
+  }
+
+  const name = formData.get("name") as string;
+
+  const data = await prisma.subreddit.create({
+    data: {
+      name: name,
+      userId: user.id,
+    },
+  });
+
+  return redirect("/");
 }
