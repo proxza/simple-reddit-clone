@@ -3,8 +3,9 @@
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
 import prisma from "./lib/db";
+import { Prisma } from "@prisma/client";
 
-export async function updateUsername(formData: FormData) {
+export async function updateUsername(prevState: any, formData: FormData) {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
@@ -14,16 +15,28 @@ export async function updateUsername(formData: FormData) {
 
   const username = formData.get("username") as string;
 
-  await prisma.user.update({
-    where: {
-      id: user.id,
-    },
-    data: {
-      userName: username,
-    },
-  });
+  try {
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        userName: username,
+      },
+    });
 
-  return {
-    message: "You new username saved!",
-  };
+    return {
+      message: "You new username saved!",
+      status: "green",
+    };
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        return {
+          message: "This username is already used!",
+          status: "error",
+        };
+      }
+    }
+  }
 }
