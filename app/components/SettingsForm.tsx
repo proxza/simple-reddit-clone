@@ -5,10 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import { updateUsername } from "../actions";
 
 export function SettingsForm({ username }: { username: string | null | undefined }) {
   return (
-    <form>
+    <form action={updateUsername}>
       <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
 
       <Separator className="my-4" />
@@ -21,7 +22,9 @@ export function SettingsForm({ username }: { username: string | null | undefined
         <Button variant="secondary" asChild type="button">
           <Link href="/">Cancel</Link>
         </Button>
-        <Button variant="destructive">Save</Button>
+        <Button variant="destructive" type="submit">
+          Save
+        </Button>
       </div>
     </form>
   );
