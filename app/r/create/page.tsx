@@ -1,6 +1,7 @@
 "use client";
 
 import { createCommunity } from "@/app/actions";
+import { SubmitButton } from "@/app/components/SubmitButtons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -48,7 +49,7 @@ export default function SubredditPage() {
           <Button asChild variant="secondary">
             <Link href="/">Cancel</Link>
           </Button>
-          <Button type="submit">Submit</Button>
+          <SubmitButton text="Submit" />
         </div>
       </form>
     </div>

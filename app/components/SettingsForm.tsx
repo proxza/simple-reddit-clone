@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useFormState } from "react-dom";
 import { useEffect } from "react";
 import { updateUsername } from "../actions";
-import { SaveUsernameBtn } from "./SubmitButtons";
+import { SubmitButton } from "./SubmitButtons";
 
 const initialState = {
   message: "",
@@ -51,7 +51,7 @@ export function SettingsForm({ username }: { username: string | null | undefined
         <Button variant="secondary" asChild type="button">
           <Link href="/">Cancel</Link>
         </Button>
-        <SaveUsernameBtn />
+        <SubmitButton text="Save" />
       </div>
     </form>
   );
