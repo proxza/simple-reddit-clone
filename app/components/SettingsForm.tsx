@@ -45,7 +45,7 @@ export function SettingsForm({ username }: { username: string | null | undefined
 
       <Input defaultValue={username ?? undefined} name="username" required className="mt-2" min={2} maxLength={21} />
 
-      {state?.status === "error" && <p className="text-red-500 mt-1">{state.message}</p>}
+      {state?.status === "error" && <p className="mt-1 text-destructive">{state.message}</p>}
 
       <div className="w-full mt-5 flex gap-x-5 justify-end">
         <Button variant="secondary" asChild type="button">

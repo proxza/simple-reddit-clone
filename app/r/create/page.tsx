@@ -42,6 +42,8 @@ export default function SubredditPage() {
           <Input name="name" required minLength={2} maxLength={28} className="pl-6" />
         </div>
 
+        {state?.status === "error" && <p className="mt-1 text-destructive">{state.message}</p>}
+
         <div className="w-full flex mt-5 gap-x-5 justify-end">
           <Button asChild variant="secondary">
             <Link href="/">Cancel</Link>
