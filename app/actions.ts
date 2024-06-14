@@ -42,7 +42,7 @@ export async function updateUsername(prevState: any, formData: FormData) {
   }
 }
 
-export async function createCommunity(formData: FormData) {
+export async function createCommunity(prevState: any, formData: FormData) {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
@@ -50,14 +50,26 @@ export async function createCommunity(formData: FormData) {
     return redirect("/api/auth/login");
   }
 
-  const name = formData.get("name") as string;
+  try {
+    const name = formData.get("name") as string;
 
-  const data = await prisma.subreddit.create({
-    data: {
-      name: name,
-      userId: user.id,
-    },
-  });
+    const data = await prisma.subreddit.create({
+      data: {
+        name: name,
+        userId: user.id,
+      },
+    });
 
-  return redirect("/");
+    return redirect("/");
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        return {
+          message: "This Community Name is already used.",
+          status: "error",
+        };
+      }
+    }
+    throw error;
+  }
 }
