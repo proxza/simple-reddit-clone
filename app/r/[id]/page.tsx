@@ -1,5 +1,8 @@
+import { updateSubDescription } from "@/app/actions";
+import { SaveButton } from "@/app/components/SubmitButtons";
 import prisma from "@/app/lib/db";
 import { Card } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
@@ -42,7 +45,15 @@ export default async function SubRedditRoute({ params }: { params: { id: string 
                 r/{data?.name}
               </Link>
             </div>
-            <p className="text-sm font-normal text-secondary-foreground mt-2">{data?.description}</p>
+            {user?.id === data?.userId ? (
+              <form className="mt-3" action={updateSubDescription}>
+                <input type="hidden" name="subName" value={params.id} />
+                <Textarea placeholder="Create your custom description for you sub" name="description" maxLength={255} defaultValue={data?.description ?? undefined} />
+                <SaveButton />
+              </form>
+            ) : (
+              <p className="text-sm font-normal text-secondary-foreground mt-2">{data?.description}</p>
+            )}
           </div>
         </Card>
       </div>
