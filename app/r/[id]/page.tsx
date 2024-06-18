@@ -1,4 +1,5 @@
 import { updateSubDescription } from "@/app/actions";
+import { SubDescriptionForm } from "@/app/components/SubDescriptionForm";
 import { SaveButton } from "@/app/components/SubmitButtons";
 import prisma from "@/app/lib/db";
 import { Card } from "@/components/ui/card";
@@ -45,15 +46,7 @@ export default async function SubRedditRoute({ params }: { params: { id: string 
                 r/{data?.name}
               </Link>
             </div>
-            {user?.id === data?.userId ? (
-              <form className="mt-3" action={updateSubDescription}>
-                <input type="hidden" name="subName" value={params.id} />
-                <Textarea placeholder="Create your custom description for you sub" name="description" maxLength={255} defaultValue={data?.description ?? undefined} />
-                <SaveButton />
-              </form>
-            ) : (
-              <p className="text-sm font-normal text-secondary-foreground mt-2">{data?.description}</p>
-            )}
+            {user?.id === data?.userId ? <SubDescriptionForm description={data?.description} subName={params.id} /> : <p className="text-sm font-normal text-secondary-foreground mt-2">{data?.description}</p>}
           </div>
         </Card>
       </div>
