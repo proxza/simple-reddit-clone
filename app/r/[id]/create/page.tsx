@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import pfp from "@/public/pfp.png";
+import Link from "next/link";
 
 const rules = [
   {
@@ -26,11 +27,16 @@ const rules = [
   },
 ];
 
-export default function CreatePostRoute() {
+export default function CreatePostRoute({ params }: { params: { id: string } }) {
   return (
     <div className="max-w-[1000px] mx-auto flex gap-x-10 mt-4">
       <div className="w-[65%] flex flex-col gap-y-5">
-        <h1>Hello there!</h1>
+        <h1 className="font-semibold">
+          Subreddit:{" "}
+          <Link href={`/r/${params.id}`} className="text-primary">
+            r/{params.id}
+          </Link>
+        </h1>
       </div>
       <div className="w-[35%]">
         <Card className="flex flex-col p-4">
