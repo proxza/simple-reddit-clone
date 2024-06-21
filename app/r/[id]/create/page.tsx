@@ -1,4 +1,4 @@
-import { Card, CardHeader } from "@/components/ui/card";
+import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import pfp from "@/public/pfp.png";
@@ -8,6 +8,7 @@ import { Text, Video } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TipTapEditor } from "@/app/components/TipTapEditor";
+import { SubmitButton } from "@/app/components/SubmitButtons";
 
 const rules = [
   {
@@ -61,8 +62,16 @@ export default function CreatePostRoute({ params }: { params: { id: string } }) 
 
                   <TipTapEditor />
                 </CardHeader>
+                <CardFooter>
+                  <SubmitButton text="Create Post" />
+                </CardFooter>
               </form>
             </Card>
+          </TabsContent>
+          <TabsContent value="image">
+            <CardHeader>
+              <h1>hello hello</h1>
+            </CardHeader>
           </TabsContent>
         </Tabs>
       </div>

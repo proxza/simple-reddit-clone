@@ -23,6 +23,12 @@ export const Menubar = ({ editor }: { editor: Editor | null }) => {
       <Button type="button" onClick={() => editor.chain().focus().toggleBold().run()} variant={editor.isActive("bold") ? "default" : "secondary"}>
         Bold
       </Button>
+      <Button type="button" onClick={() => editor.chain().focus().toggleItalic().run()} variant={editor.isActive("italic") ? "default" : "secondary"}>
+        Italic
+      </Button>
+      <Button type="button" onClick={() => editor.chain().focus().toggleStrike().run()} variant={editor.isActive("strike") ? "default" : "secondary"}>
+        Strike
+      </Button>
     </div>
   );
 };
