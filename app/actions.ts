@@ -106,3 +106,25 @@ export async function updateSubDescription(prevState: any, formData: FormData) {
     };
   }
 }
+
+export async function createPost(formData: FormData) {
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+
+  if (!user) {
+    return redirect("/api/auth/login");
+  }
+
+  const title = formData.get("title") as string;
+  const imageUrl = formData.get("imageUrl") as string | null;
+
+  await prisma.post.create({
+    data: {
+      title: title,
+      imageString: imageUrl ?? undefined,
+      subName: user.given_name,
+      userId: user.id,
+      textContent: "",
+    },
+  });
+}
