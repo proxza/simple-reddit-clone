@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { TipTapEditor } from "@/app/components/TipTapEditor";
 import { SubmitButton } from "@/app/components/SubmitButtons";
 import { UploadDropzone } from "@/app/components/Uploadthing";
+import { useState } from "react";
 
 const rules = [
   {
@@ -36,6 +37,10 @@ const rules = [
 ];
 
 export default function CreatePostRoute({ params }: { params: { id: string } }) {
+  const [imageUrl, setImageUrl] = useState<null | string>(null);
+  const [json, setJson] = useState(null);
+  const [title, setTitle] = useState<null | string>(null);
+
   return (
     <div className="max-w-[1000px] mx-auto flex gap-x-10 mt-4">
       <div className="w-[65%] flex flex-col gap-y-5">
@@ -58,11 +63,12 @@ export default function CreatePostRoute({ params }: { params: { id: string } }) 
           <TabsContent value="post">
             <Card>
               <form>
+                <input type="hidden" name="imageUrl" value={imageUrl ?? undefined} />
                 <CardHeader>
                   <Label>Title</Label>
-                  <Input required name="title" placeholder="Title " />
+                  <Input required name="title" placeholder="Title" value={title ?? undefined} onChange={(e) => setTitle(e.target.value)} />
 
-                  <TipTapEditor />
+                  <TipTapEditor setJson={setJson} json={json} />
                 </CardHeader>
                 <CardFooter>
                   <SubmitButton text="Create Post" />
@@ -76,7 +82,7 @@ export default function CreatePostRoute({ params }: { params: { id: string } }) 
                 className="ut-button:bg-primary ut-button:ut-readying:bg-primary/50 ut-label:text-primary ut-button:ut-uploading:bg-primary/50 ut-button:ut-uploading:after:bg-primary"
                 endpoint="imageUploader"
                 onClientUploadComplete={(res) => {
-                  console.log(res);
+                  setImageUrl(res[0].url);
                 }}
                 onUploadError={(error: Error) => {
                   alert("Error!");
