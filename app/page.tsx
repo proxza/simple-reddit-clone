@@ -5,12 +5,13 @@ import HelloImage from "@/public/hero-image.png";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { CreatePostCard } from "./components/CreatePostCard";
 
 export default function Home() {
   return (
     <div className="max-w-[1000px] mx-auto flex gap-x-10 mt-4">
       <div className="w-[65%] flex flex-col gap-y-5">
-        <h1>Left side</h1>
+        <CreatePostCard />
       </div>
       <div className="w-[35%]">
         <Card>
@@ -20,7 +21,7 @@ export default function Home() {
               <Image src={HelloImage} alt="Hello" className="w-10 h-16 -mt-6" />
               <h1 className="font-medium pl-3">Home</h1>
             </div>
-            <p className="text-sm text-muted-foreground pt-2">Your Home Reddit frontpage. Come here to check in with your favorite communities!</p>
+            <p className="text-sm text-muted-foreground pt-2">Your Home Reddit page. Come here to check in with your favorite communities!</p>
             <Separator className="mt-5" />
 
             <div className="flex flex-col gap-y-3">
