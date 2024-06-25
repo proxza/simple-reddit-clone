@@ -117,6 +117,7 @@ export async function createPost(formData: FormData) {
 
   const title = formData.get("title") as string;
   const imageUrl = formData.get("imageUrl") as string | null;
+  const subName = formData.get("subName") as string;
 
   await prisma.post.create({
     data: {
