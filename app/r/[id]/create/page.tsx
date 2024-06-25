@@ -1,4 +1,5 @@
 "use client";
+
 import { Card, CardFooter, CardHeader } from "@/components/ui/card";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
@@ -12,6 +13,8 @@ import { TipTapEditor } from "@/app/components/TipTapEditor";
 import { SubmitButton } from "@/app/components/SubmitButtons";
 import { UploadDropzone } from "@/app/components/Uploadthing";
 import { useState } from "react";
+import { createPost } from "@/app/actions";
+import { JSONContent } from "@tiptap/react";
 
 const rules = [
   {
@@ -38,8 +41,10 @@ const rules = [
 
 export default function CreatePostRoute({ params }: { params: { id: string } }) {
   const [imageUrl, setImageUrl] = useState<null | string>(null);
-  const [json, setJson] = useState(null);
+  const [json, setJson] = useState<null | JSONContent>(null);
   const [title, setTitle] = useState<null | string>(null);
+
+  const createPostReddit = createPost.bind(null, { jsonContent: json });
 
   return (
     <div className="max-w-[1000px] mx-auto flex gap-x-10 mt-4">
@@ -62,11 +67,12 @@ export default function CreatePostRoute({ params }: { params: { id: string } }) 
           </TabsList>
           <TabsContent value="post">
             <Card>
-              <form>
+              <form action={createPostReddit}>
                 <input type="hidden" name="imageUrl" value={imageUrl ?? undefined} />
+                <input type="hidden" name="subName" value={params.id} />
                 <CardHeader>
                   <Label>Title</Label>
-                  <Input required name="title" placeholder="Title" value={title ?? undefined} onChange={(e) => setTitle(e.target.value)} />
+                  <Input required name="title" placeholder="Title" value={title ?? ""} onChange={(e) => setTitle(e.target.value)} />
 
                   <TipTapEditor setJson={setJson} json={json} />
                 </CardHeader>
@@ -78,16 +84,20 @@ export default function CreatePostRoute({ params }: { params: { id: string } }) 
           </TabsContent>
           <TabsContent value="image">
             <CardHeader>
-              <UploadDropzone
-                className="ut-button:bg-primary ut-button:ut-readying:bg-primary/50 ut-label:text-primary ut-button:ut-uploading:bg-primary/50 ut-button:ut-uploading:after:bg-primary"
-                endpoint="imageUploader"
-                onClientUploadComplete={(res) => {
-                  setImageUrl(res[0].url);
-                }}
-                onUploadError={(error: Error) => {
-                  alert("Error!");
-                }}
-              />
+              {imageUrl === null ? (
+                <UploadDropzone
+                  className="ut-button:bg-primary ut-button:ut-readying:bg-primary/50 ut-label:text-primary ut-button:ut-uploading:bg-primary/50 ut-button:ut-uploading:after:bg-primary"
+                  endpoint="imageUploader"
+                  onClientUploadComplete={(res) => {
+                    setImageUrl(res[0].url);
+                  }}
+                  onUploadError={(error: Error) => {
+                    alert("Error!");
+                  }}
+                />
+              ) : (
+                <Image src={imageUrl} alt="Uploaded Picture" width={500} height={400} className="h-80 rounded-lg w-full object-contain" />
+              )}
             </CardHeader>
           </TabsContent>
         </Tabs>
