@@ -6,12 +6,39 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { CreatePostCard } from "./components/CreatePostCard";
+import prisma from "./lib/db";
+import { PostCard } from "./components/PostCard";
 
-export default function Home() {
+async function getData() {
+  const data = await prisma.post.findMany({
+    select: {
+      title: true,
+      createdAt: true,
+      textContent: true,
+      id: true,
+      imageString: true,
+      User: {
+        select: {
+          userName: true,
+        },
+      },
+      subName: true,
+    },
+  });
+
+  return data;
+}
+
+export default async function Home() {
+  const data = await getData();
+
   return (
     <div className="max-w-[1000px] mx-auto flex gap-x-10 mt-4">
       <div className="w-[65%] flex flex-col gap-y-5">
         <CreatePostCard />
+        {data.map((post) => (
+          <PostCard id={post.id} imageString={post.imageString} title={post.title} jsonContent={post.textContent} subName={post.subName as string} userName={post.User?.userName as string} key={post.id} />
+        ))}
       </div>
       <div className="w-[35%]">
         <Card>
