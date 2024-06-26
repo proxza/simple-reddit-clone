@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { ArrowDown, ArrowUp, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { CopyLink } from "./CopyLink";
 
 interface iAppProps {
   title: string;
@@ -48,11 +49,13 @@ export function PostCard({ id, jsonContent, title, subName, userName, imageStrin
 
         <div>{imageString && <Image src={imageString} alt="Post Picture" width={600} height={300} className="w-full h-full" />}</div>
 
-        <div className="m-3">
+        <div className="m-3 flex items-center gap-x-5">
           <div className="flex items-center gap-x-1">
             <MessageCircle className="h-4 w-4 text-muted-foreground" />
             <p className="text-muted-foreground font-medium text-xs">33 comments</p>
           </div>
+
+          <CopyLink />
         </div>
       </div>
     </Card>
