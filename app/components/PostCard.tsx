@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowDown, ArrowUp } from "lucide-react";
+import { ArrowDown, ArrowUp, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -47,6 +47,13 @@ export function PostCard({ id, jsonContent, title, subName, userName, imageStrin
         </div>
 
         <div>{imageString && <Image src={imageString} alt="Post Picture" width={600} height={300} className="w-full h-full" />}</div>
+
+        <div className="m-3">
+          <div className="flex items-center gap-x-1">
+            <MessageCircle className="h-4 w-4 text-muted-foreground" />
+            <p className="text-muted-foreground font-medium text-xs">33 comments</p>
+          </div>
+        </div>
       </div>
     </Card>
   );
