@@ -55,7 +55,7 @@ export function PostCard({ id, jsonContent, title, subName, userName, imageStrin
             <p className="text-muted-foreground font-medium text-xs">33 comments</p>
           </div>
 
-          <CopyLink />
+          <CopyLink id={id} />
         </div>
       </div>
     </Card>
