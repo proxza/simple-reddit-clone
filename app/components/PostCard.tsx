@@ -19,13 +19,17 @@ export function PostCard({ id, jsonContent, title, subName, userName, imageStrin
     <Card className="flex relative overflow-hidden">
       <div className="flex flex-col items-center gap-y-2 bg-muted p-2">
         <form>
-          <Button variant="outline" size="sm">
+          <input type="hidden" name="voteDirection" value="UP" />
+          <input type="hidden" name="postId" value={id} />
+          <Button variant="outline" size="sm" type="submit">
             <ArrowUp className="h-4 w-4" />
           </Button>
         </form>
         0
         <form>
-          <Button variant="outline" size="sm">
+          <input type="hidden" name="voteDirection" value="DOWN" />
+          <input type="hidden" name="postId" value={id} />
+          <Button variant="outline" size="sm" type="submit">
             <ArrowDown className="h-4 w-4" />
           </Button>
         </form>
