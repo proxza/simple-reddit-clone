@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import prisma from "./lib/db";
 import { Prisma, TypeOfVote } from "@prisma/client";
 import { JSONContent } from "@tiptap/react";
+import { revalidatePath } from "next/cache";
 
 export async function updateUsername(prevState: any, formData: FormData) {
   const { getUser } = getKindeServerSession();
@@ -158,6 +159,8 @@ export async function handleVote(formData: FormData) {
           id: vote.id,
         },
       });
+
+      return revalidatePath("/");
     } else {
       await prisma.vote.update({
         where: {
@@ -167,6 +170,8 @@ export async function handleVote(formData: FormData) {
           voteType: voteDirection,
         },
       });
+
+      return revalidatePath("/");
     }
   }
 
@@ -177,4 +182,6 @@ export async function handleVote(formData: FormData) {
       postId: postId,
     },
   });
+
+  return revalidatePath("/");
 }

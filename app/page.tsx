@@ -23,6 +23,13 @@ async function getData() {
         },
       },
       subName: true,
+      Vote: {
+        select: {
+          userId: true,
+          voteType: true,
+          postId: true,
+        },
+      },
     },
   });
 
@@ -37,7 +44,20 @@ export default async function Home() {
       <div className="w-[65%] flex flex-col gap-y-5">
         <CreatePostCard />
         {data.map((post) => (
-          <PostCard id={post.id} imageString={post.imageString} title={post.title} jsonContent={post.textContent} subName={post.subName as string} userName={post.User?.userName as string} key={post.id} />
+          <PostCard
+            id={post.id}
+            imageString={post.imageString}
+            title={post.title}
+            jsonContent={post.textContent}
+            subName={post.subName as string}
+            userName={post.User?.userName as string}
+            key={post.id}
+            voteCount={post.Vote.reduce((acc, vote) => {
+              if (vote.voteType === "UP") return acc + 1;
+              if (vote.voteType === "DOWN") return acc - 1;
+              return acc;
+            }, 0)}
+          />
         ))}
       </div>
       <div className="w-[35%]">
