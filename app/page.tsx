@@ -31,6 +31,9 @@ async function getData() {
         },
       },
     },
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
   return data;
