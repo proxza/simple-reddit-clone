@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CopyLink } from "./CopyLink";
 import { handleVote } from "../actions";
+import { DownVote, UpVote } from "./SubmitButtons";
 
 interface iAppProps {
   title: string;
@@ -23,17 +24,13 @@ export function PostCard({ id, jsonContent, title, subName, userName, imageStrin
         <form action={handleVote}>
           <input type="hidden" name="voteDirection" value="UP" />
           <input type="hidden" name="postId" value={id} />
-          <Button variant="outline" size="sm" type="submit">
-            <ArrowUp className="h-4 w-4" />
-          </Button>
+          <UpVote />
         </form>
         {voteCount}
         <form action={handleVote}>
           <input type="hidden" name="voteDirection" value="DOWN" />
           <input type="hidden" name="postId" value={id} />
-          <Button variant="outline" size="sm" type="submit">
-            <ArrowDown className="h-4 w-4" />
-          </Button>
+          <DownVote />
         </form>
       </div>
 
