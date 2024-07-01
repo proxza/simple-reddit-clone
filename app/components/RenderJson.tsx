@@ -19,6 +19,9 @@ const handlers: NodeHandlers = {
 };
 
 export function RenderToJson({ data }: { data: any }) {
+  if (!data || !data.content) {
+    return <div className="px-2 pt-2 prose dark:prose-invert">No content available</div>;
+  }
   return (
     <div className="px-2 pt-2 prose dark:prose-invert">
       <TipTapRender handlers={handlers} node={data} />
