@@ -28,19 +28,20 @@ export async function updateUsername(prevState: any, formData: FormData) {
     });
 
     return {
-      message: "You new username saved!",
+      message: "Succesfully Updated name",
       status: "green",
     };
-  } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (e.code === "P2002") {
         return {
-          message: "This username is already used!",
+          message: "This username is alredy used",
           status: "error",
         };
       }
     }
-    throw error;
+
+    throw e;
   }
 }
 
@@ -62,17 +63,17 @@ export async function createCommunity(prevState: any, formData: FormData) {
       },
     });
 
-    return redirect("/");
-  } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
+    return redirect(`/r/${data.name}`);
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (e.code === "P2002") {
         return {
-          message: "This Community Name is already used.",
+          message: "This Name is alredy used",
           status: "error",
         };
       }
     }
-    throw error;
+    throw e;
   }
 }
 
@@ -98,13 +99,13 @@ export async function updateSubDescription(prevState: any, formData: FormData) {
     });
 
     return {
-      message: "Succesfully updated the description!",
       status: "green",
+      message: "Succesfully updated the description!",
     };
-  } catch (error) {
+  } catch (e) {
     return {
-      message: "Sorry something went wrong, please try again",
       status: "error",
+      message: "Sorry something went wrong!",
     };
   }
 }
@@ -131,7 +132,7 @@ export async function createPost({ jsonContent }: { jsonContent: JSONContent | n
     },
   });
 
-  return redirect("/");
+  return redirect(`/post/${data.id}`);
 }
 
 export async function handleVote(formData: FormData) {
@@ -160,7 +161,7 @@ export async function handleVote(formData: FormData) {
         },
       });
 
-      return revalidatePath("/");
+      return revalidatePath("/", "page");
     } else {
       await prisma.vote.update({
         where: {
@@ -170,8 +171,7 @@ export async function handleVote(formData: FormData) {
           voteType: voteDirection,
         },
       });
-
-      return revalidatePath("/");
+      return revalidatePath("/", "page");
     }
   }
 
@@ -183,5 +183,27 @@ export async function handleVote(formData: FormData) {
     },
   });
 
-  return revalidatePath("/");
+  return revalidatePath("/", "page");
 }
+
+// export async function createComment(formData: FormData) {
+//   const { getUser } = getKindeServerSession();
+//   const user = await getUser();
+
+//   if (!user) {
+//     return redirect("/api/auth/login");
+//   }
+
+//   const comment = formData.get("comment") as string;
+//   const postId = formData.get("postId") as string;
+
+//   const data = await prisma.comemnt.create({
+//     data: {
+//       text: comment,
+//       userId: user.id,
+//       postId: postId,
+//     },
+//   });
+
+//   revalidatePath(`/post/${postId}`);
+// }

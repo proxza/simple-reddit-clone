@@ -6,18 +6,20 @@ import Link from "next/link";
 import { CopyLink } from "./CopyLink";
 import { handleVote } from "../actions";
 import { DownVote, UpVote } from "./SubmitButtons";
+import { RenderToJson } from "./RenderJson";
 
 interface iAppProps {
   title: string;
-  jsonContent: any;
+  jsonContent: any | null;
   id: string;
   subName: string;
   userName: string;
   imageString: string | null;
   voteCount: number;
+  commentAmount: number;
 }
 
-export function PostCard({ id, jsonContent, title, subName, userName, imageString, voteCount }: iAppProps) {
+export function PostCard({ id, imageString, jsonContent, subName, title, userName, voteCount, commentAmount }: iAppProps) {
   return (
     <Card className="flex relative overflow-hidden">
       <div className="flex flex-col items-center gap-y-2 bg-muted p-2">
@@ -36,7 +38,7 @@ export function PostCard({ id, jsonContent, title, subName, userName, imageStrin
 
       <div>
         <div className="flex items-center gap-x-2 p-2">
-          <Link href={`/r/${subName}`} className="font-semibold text-xs">
+          <Link className="font-semibold text-xs" href={`/r/${subName}`}>
             r/{subName}
           </Link>
           <p className="text-xs text-muted-foreground">
@@ -45,17 +47,17 @@ export function PostCard({ id, jsonContent, title, subName, userName, imageStrin
         </div>
 
         <div className="px-2">
-          <Link href="/">
+          <Link href={`/post/${id}`}>
             <h1 className="font-medium mt-1 text-lg">{title}</h1>
           </Link>
         </div>
 
-        <div>{imageString && <Image src={imageString} alt="Post Picture" width={600} height={300} className="w-full h-full" />}</div>
+        <div className="max-h-[300px] overflow-hidden">{imageString ? <Image src={imageString} alt="Post Image" width={600} height={300} className="w-full h-full" /> : <RenderToJson data={jsonContent} />}</div>
 
         <div className="m-3 flex items-center gap-x-5">
           <div className="flex items-center gap-x-1">
             <MessageCircle className="h-4 w-4 text-muted-foreground" />
-            <p className="text-muted-foreground font-medium text-xs">33 comments</p>
+            <p className="text-muted-foreground font-medium text-xs">{commentAmount} Comments</p>
           </div>
 
           <CopyLink id={id} />
